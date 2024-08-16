@@ -1,17 +1,13 @@
-import { setBackgroundColorAsync } from "expo-system-ui";
+import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function Index() {
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: "#bbb",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+     className="flex items-center justify-center h-[100vh] gap-3"
     >
-      <Text>Hello World!</Text>
+      <Text className="text-2xl">Edit app/index.tsx to edit this screen.</Text>
+      <Link href={"/details"} className="text-2xl">To Details Page</Link>
     </View>
   );
 }

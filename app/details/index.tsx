@@ -25,6 +25,8 @@ export default function Index() {
         Go to Main Page
       </Link>
       <Text>{data.message}</Text>
+      <Text>{data.message}</Text>
+      <Text>{data.message}</Text>
     </View>
   );
 }

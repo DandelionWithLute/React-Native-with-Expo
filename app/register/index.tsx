@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import axios from "axios";
 
 type Props = {
   //   name: String;
@@ -13,25 +14,47 @@ const index = (props: Props) => {
   const [password, setPassword] = useState("");
   const [submitPostCallBack, setSubmitPostCallBack] = useState("");
   const handleSubmit = async () => {
-    const res = await fetch("http://192.168.31.82:5000/api/register", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setSubmitPostCallBack(data);
-        // console.log(data.name, data.email);
-        SecureStore.setItemAsync("name", data.name);
-        SecureStore.setItemAsync("email", data.email);
-      });
+    console.log("Starting to handle Submit!");
+    // const res = await fetch("http://192.168.31.82:5000/api/register", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     name,
+    //     email,
+    //     password,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setSubmitPostCallBack(data);
+    //     // console.log(data.name, data.email);
+    //     SecureStore.setItemAsync("name", data.name);
+    //     SecureStore.setItemAsync("email", data.email);
+    //   });
+    const getReadyToPost = async () =>
+      await axios
+        .post("http://192.168.31.82:5000/api/register", {
+          name,
+          email,
+          password,
+        })
+        .then(async (res) => {
+          console.log("Then response under handle Submit!");
+          console.log(await res.status);
+          // console.log(response.json().data);
+          // setSubmitPostCallBack(response.data);
+          // SecureStore.setItemAsync("name", response.data.name);
+          // SecureStore.setItemAsync("email", response.data.email);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    console.log(getReadyToPost());
+
+    console.log("Finished handling Submit!");
   };
 
   return (
@@ -59,7 +82,8 @@ const index = (props: Props) => {
         Submit
       </Text>
 
-      <Text className="text-2xl bg-slate-500">{submitPostCallBack}</Text>
+      <Text className="text-2xl bg-slate-500">{submitPostCallBack.name}</Text>
+      <Text className="text-2xl bg-slate-500">{submitPostCallBack.email}</Text>
     </View>
   );
 };
